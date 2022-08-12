@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\VisitaController::class, 'index'])->name('visita.index');
 
 Auth::routes();
 Route::resource('albums', App\Http\Controllers\AlbumController::class)->middleware('auth');
@@ -23,4 +21,13 @@ Route::resource('canciones', App\Http\Controllers\CancioneController::class)->mi
 Route::resource('generos', App\Http\Controllers\GeneroController::class)->middleware('auth');
 Route::resource('artistas', App\Http\Controllers\ArtistaController::class)->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\CancioneController::class, 'index'])->name('home')->middleware('auth');
+
+Route::get('/search', [App\Http\Controllers\VisitaController::class, 'search'])->name('visita.search');
+
+/* Route::post('/visita', function(){
+    return view ('visita.busqueda');
+}); */
+
+Route::post('/visita/busqueda',  [App\Http\Controllers\VisitaController::class, 'busqueda'])->name('visita.busqueda');
+

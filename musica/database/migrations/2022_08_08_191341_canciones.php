@@ -22,6 +22,8 @@ class Canciones extends Migration
             $table->bigInteger('genero_id')->unsigned();
             $table->string('nombre');
             $table->string('duracion');
+            $table->string('foto');
+            $table->string('mp3');
             $table->timestamps();
 
             $table->foreign('album_id')->references('id')->on('albums')->onDelete("cascade");

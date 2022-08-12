@@ -35,10 +35,10 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
-										<th>Artista</th>
+                                        <th>Foto</th>
+                                        <th>Artista</th>
 										<th>Nombre</th>
-										<th>Foto</th>
+										
 										<th>Fecha de lanzamiento</th>
 
                                         <th></th>
@@ -48,12 +48,12 @@
                                     @foreach ($albums as $album)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $album->artista->nombre }}</td>
-											<td>{{ $album->nombre }}</td>
-											<td>
+                                            <td>
                                                 <img src="{{asset('storage').'/'.$album->foto}}" width="100" alt=""> 
                                             </td>
+											<td>{{ $album->artista->nombre }}</td>
+											<td>{{ $album->nombre }}</td>
+											
 											<td>{{ $album->fechaLanzamiento }}</td>
 
                                             <td>

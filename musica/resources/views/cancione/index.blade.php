@@ -35,13 +35,13 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
-										<th>Album</th>
-										<th>Artista</th>
-										<th>Genero</th>
-										<th>Nombre</th>
+                                        <th>Foto</th>
+                                        <th>Nombre</th>
+                                        <th>Album</th>
+                                        <th>Artista</th>
+                                        <th>Genero</th>
 										<th>Duracion</th>
-
+                                        <th>Mp3</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -49,12 +49,22 @@
                                     @foreach ($canciones as $cancione)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+                                            <td>
+                                                <img src="{{asset('storage').'/'.$cancione->foto}}" width="100" alt="">    
+                                            </td>
+                                            <td>{{ $cancione->nombre }}</td>
 											<td>{{ $cancione->album->nombre }}</td>
 											<td>{{ $cancione->artista->nombre }}</td>
 											<td>{{ $cancione->genero->nombre }}</td>
-											<td>{{ $cancione->nombre }}</td>
+											
 											<td>{{ $cancione->duracion }}</td>
+                                            
+                                            <td><audio controls>
+                                                    <source src="{{asset('storage').'/'.$cancione->mp3}}" type="audio/mpeg">
+                                                    Your browser does not support the audio element.
+                                                    </audio>
+                                            </td>
+
 
                                             <td>
                                                 <form action="{{ route('canciones.destroy',$cancione->id) }}" method="POST">

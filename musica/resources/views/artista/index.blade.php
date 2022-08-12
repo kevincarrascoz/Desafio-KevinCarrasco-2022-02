@@ -36,8 +36,8 @@
                                     <tr>
                                         <th>No</th>
                                         
+                                        <th>Foto</th>
 										<th>Nombre</th>
-										<th>Foto</th>
 										<th>Fecha de nacimiento</th>
 
                                         <th></th>
@@ -47,11 +47,11 @@
                                     @foreach ($artistas as $artista)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $artista->nombre }}</td>
-											<td>
+                                            <td>
                                                 <img src="{{asset('storage').'/'.$artista->foto}}" width="100" alt="">    
                                             </td>
+											<td>{{ $artista->nombre }}</td>
+											
 											<td>{{ $artista->fechaNacimiento }}</td>
 
                                             <td>

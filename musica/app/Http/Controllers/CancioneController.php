@@ -7,6 +7,7 @@ use App\Models\Artista;
 use App\Models\Genero;
 use App\Models\Album;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class CancioneController
@@ -21,8 +22,7 @@ class CancioneController extends Controller
      */
     public function index()
     {
-        $canciones = Cancione::paginate();
-
+        $canciones = Cancione::paginate(5);
         return view('cancione.index', compact('canciones'))
             ->with('i', (request()->input('page', 1) - 1) * $canciones->perPage());
     }
@@ -51,11 +51,18 @@ class CancioneController extends Controller
     public function store(Request $request)
     {
         request()->validate(Cancione::$rules);
+        $cancion = $request->except('_token');
+        if($request->hasFile('foto')){
+            $cancion['foto']=$request->file('foto')->store('uploads','public');
 
-        $cancione = Cancione::create($request->all());
+        }
+        if($request->hasFile('mp3')){
+            $cancion['mp3']=$request->file('mp3')->store('uploads','public');
 
-        return redirect()->route('canciones.index')
-            ->with('success', 'Cancione created successfully.');
+        }
+        Cancione::insert($cancion);
+        
+        return redirect()->route('canciones.index')->with('success', 'Cancion created successfully.');
     }
 
     /**
@@ -94,14 +101,30 @@ class CancioneController extends Controller
      * @param  Cancione $cancione
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cancione $cancione)
+    public function update(Request $request, $id)
     {
         request()->validate(Cancione::$rules);
 
-        $cancione->update($request->all());
+        $datosCancion = request()->except(['_token','_method']);
 
+        if($request->hasFile('foto')){
+            $cancion=Cancione::findOrFail($id);
+            Storage::delete('public/'.$cancion->foto);
+            $datosCancion['foto']=$request->file('foto')->store('uploads','public');
+        }
+
+        if($request->hasFile('mp3')){
+            $cancion=Cancione::findOrFail($id);
+            Storage::delete('public/'.$cancion->mp3);
+            $datosCancion['mp3']=$request->file('mp3')->store('uploads','public');
+        }
+
+
+        Cancione::where('id','=',$id)->update($datosCancion);
+
+        $cancion=Cancione::findOrFail($id);
         return redirect()->route('canciones.index')
-            ->with('success', 'Cancione updated successfully');
+            ->with('success', 'Canciones updated successfully');
     }
 
     /**

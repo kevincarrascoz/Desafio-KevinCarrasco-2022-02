@@ -27,6 +27,17 @@
             {!! $errors->first('duracion', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 
+        <div class="form-group">
+            {{ Form::label('foto') }}
+            {{ Form::file('foto', $cancione->foto, ['class' => 'form-control' . ($errors->has('foto') ? ' is-invalid' : ''), 'placeholder' => 'Foto']) }}
+            {!! $errors->first('foto', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('mp3') }}
+            {{ Form::file('mp3', $cancione->mp3, ['class' => 'form-control' . ($errors->has('mp3') ? ' is-invalid' : ''), 'placeholder' => 'Mp3']) }}
+            {!! $errors->first('mp3', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+
     </div>
     <div class="box-footer mt20">
         <button type="submit" class="btn btn-primary">Submit</button>

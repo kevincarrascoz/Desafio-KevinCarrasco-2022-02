@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\Artista;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class AlbumController
@@ -91,12 +92,22 @@ class AlbumController extends Controller
      * @param  Album $album
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Album $album)
+    public function update(Request $request, $id)
     {
         request()->validate(Album::$rules);
 
-        $album->update($request->all());
+        $datosAlbum = request()->except(['_token','_method']);
 
+        if($request->hasFile('foto')){
+            $album=Album::findOrFail($id);
+            Storage::delete('public/'.$album->foto);
+            $datosAlbum['foto']=$request->file('foto')->store('uploads','public');
+        }
+
+
+        Album::where('id','=',$id)->update($datosAlbum);
+
+        $album=Album::findOrFail($id);
         return redirect()->route('albums.index')
             ->with('success', 'Album updated successfully');
     }
